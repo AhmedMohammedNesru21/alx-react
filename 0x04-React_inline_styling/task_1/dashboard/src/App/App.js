@@ -1,14 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { css, StyleSheet } from 'aphrodite';
 import Notifications from "../Notifications/Notifications";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Login from "../Login/Login";
-import "./App.css";
 import CourseList from "../CourseList/CourseList";
 import { getLatestNotification } from "../utils/utils";
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import BodySection from "../BodySection/BodySection";
+
 
 const listCourses = [
   {id: 1, name: 'ES6', credit: 60},
@@ -22,6 +23,27 @@ const listNotifications = [
   {id: 3, type: 'urgent', html: { __html: getLatestNotification() }}
 ]
 
+const styles = StyleSheet.create({
+  app: {
+    borderBottom: "3px solid #e14852",
+    width: "100%"
+  },
+  body: {
+    display: "flex",
+    justifyContent: 'space-evenly',
+    textAlign: 'center'
+    
+  },
+  footer: {
+    borderTop: "3px solid #e14852",
+    display: "flex",
+    justifyContent: "center",
+    fontStyle: "italic",
+    bottom: 0,
+    width: "100%"
+  }
+})
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -29,16 +51,15 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.handlePress)
+    window.addEventListener('keydown', this.handlePress)
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.handlePress)
+    window.removeEventListener('keydown', this.handlePress)
   }
 
   handlePress(event) {
     if (event.ctrlKey && event.key === 'h') {
-      event.preventDefault();
       alert('Logging you out');
       this.props.logOut()
     }
@@ -48,10 +69,10 @@ class App extends React.Component {
     return(  
     <>
       <Notifications listNotifications={listNotifications}/>
-      <div className="App">
+      <div className={css(styles.app)}>
         <Header />
       </div>
-      <div className="App-body">
+      <div className={css(styles.body)}>
         {!this.props.isLoggedIn ? 
           <BodySectionWithMarginBottom title="Log in to continue">
             <Login /> 
@@ -64,7 +85,7 @@ class App extends React.Component {
           <p>New News</p>
         </BodySection>
       </div>
-      <div className="App-footer">
+      <div className={css(styles.footer)}>
         <Footer />
       </div>
     </>

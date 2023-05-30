@@ -1,17 +1,27 @@
-import { shallow, mount } from '../../config/setupTests';
-import React from 'react';
-import BodySection from './BodySection';
+import React from "react";
+import PropTypes from 'prop-types';
+import './BodySection.css';
 
+class BodySection extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+  render() {
+    return (
+      <div className="bodySection">
+        <h2>{this.props.title}</h2>
+        {this.props.children}
+      </div>
+    );
+  }
+}
 
-describe('<BodySection />', () => {
-	it(`Renders h2 and children correctly when no children in props`, () => {
-		const wrapper = shallow(<BodySection title="My title" />);
-		expect(wrapper.exists()).toBe(true);
-	})
+BodySection.propTypes = {
+    title: PropTypes.string
+}
 
-	it(`Renders h2 and children correctly when children in props`, () => {
-		const wrapper = shallow(<BodySection title="test title"><p>test children</p></BodySection>)
-		expect(wrapper.find('h2').text()).toBe('test title');
-		expect(wrapper.find('p').text()).toBe('test children');
-	})
-})
+BodySection.defaultProps = {
+    title: ''
+}
+
+export default BodySection;
